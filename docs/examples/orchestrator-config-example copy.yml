@@ -1,0 +1,119 @@
+# Orchestrator Configuration Example
+# This file demonstrates all available orchestrator settings that can be configured via YAML
+
+# Directory containing the packages to deploy
+packagesDir: ../../packages
+
+# Path to deployment configuration (file, folder, or URL)
+# - Single file:  ./001-deploy-config.yml
+# - Folder:       ./configs (processes all *.yml files)
+# - Remote URL:   https://raw.githubusercontent.com/org/repo/main/config.yml
+deployConfig: ../../deployment
+
+# Optional: Deployment prefix for package/artifact IDs
+# This will be prepended to all package and artifact IDs
+# Example: "DEV" -> package becomes "DEVMyPackage"
+deploymentPrefix: ""
+
+# Optional: Filter packages by name (comma-separated)
+# Only these packages will be processed
+# Example: "DeviceManagement,GenericPipeline"
+packageFilter: ""
+
+# Optional: Filter artifacts by name (comma-separated)
+# Only these artifacts will be processed
+# Example: "MDMEquipmentMutationOutbound,CustomerDataSync"
+artifactFilter: ""
+
+# Optional: File pattern for config files when using folder source
+# Default: "*.y*ml" (matches both .yml and .yaml)
+configPattern: "*.y*ml"
+
+# Optional: Merge multiple config files into single deployment
+# Default: false (process each config separately)
+# When true: All configs are merged and deployed together with their prefixes
+mergeConfigs: true
+
+# Optional: Keep temporary directory after execution
+# Default: false (cleanup temp files)
+# Useful for debugging - temp dir contains modified artifacts
+keepTemp: false
+
+# Operation mode: "update-and-deploy", "update-only", or "deploy-only"
+# - update-and-deploy: Update artifacts, then deploy them (default)
+# - update-only:       Only update artifacts, skip deployment
+# - deploy-only:       Only deploy artifacts, skip updates
+mode: "update-and-deploy"
+
+# Deployment Settings (Phase 2 - Parallel Deployment)
+
+# Number of status check retries for each deployment
+# Default: 5
+# Each retry waits for deployDelaySeconds before checking again
+deployRetries: 5
+
+# Delay in seconds between deployment status checks
+# Default: 15
+# Increase this if deployments take longer in your environment
+deployDelaySeconds: 15
+
+# Maximum number of parallel deployments per package
+# Default: 3
+# Increase for faster deployments (but watch for rate limits)
+# Decrease if you hit API rate limits or memory constraints
+parallelDeployments: 10
+
+# ---
+# # Complete Example with All Settings
+# packagesDir: ./packages
+# deployConfig: ./configs
+# deploymentPrefix: DEV
+# packageFilter: "DeviceManagement,CustomerSync"
+# artifactFilter: ""
+# configPattern: "*.yml"
+# mergeConfigs: true
+# keepTemp: false
+# mode: "update-and-deploy"
+# deployRetries: 10
+# deployDelaySeconds: 20
+# parallelDeployments: 5
+
+# ---
+# # Example: Development Environment
+# packagesDir: ./packages
+# deployConfig: ./dev-config.yml
+# deploymentPrefix: DEV
+# mode: "update-and-deploy"
+# parallelDeployments: 5
+# deployRetries: 5
+# deployDelaySeconds: 15
+
+# ---
+# # Example: Production Environment (Conservative)
+# packagesDir: ./packages
+# deployConfig: ./prod-config.yml
+# deploymentPrefix: PROD
+# mode: "update-and-deploy"
+# parallelDeployments: 2  # Lower parallelism for production
+# deployRetries: 10       # More retries for stability
+# deployDelaySeconds: 30  # Longer delays between checks
+
+# ---
+# # Example: CI/CD Pipeline (Fast)
+# packagesDir: ./packages
+# deployConfig: https://raw.githubusercontent.com/org/repo/main/ci-config.yml
+# mode: "update-and-deploy"
+# parallelDeployments: 10  # High parallelism for speed
+# deployRetries: 5
+# deployDelaySeconds: 10
+# keepTemp: false
+
+# ---
+# # Example: Debugging/Development
+# packagesDir: ./packages
+# deployConfig: ./test-config.yml
+# deploymentPrefix: TEST
+# packageFilter: "SinglePackageToTest"
+# mode: "update-only"  # Don't deploy, just update
+# keepTemp: true       # Keep temp files for inspection
+# parallelDeployments: 1

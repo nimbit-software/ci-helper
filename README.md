@@ -16,9 +16,38 @@ Integration (CI) & Continuous Delivery/Deployment (CD) capabilities for SAP Inte
 _FlashPipe_ aims to simplify the Build-To-Deploy cycle for SAP Integration Suite by providing CI/CD capabilities for
 automating time-consuming manual tasks.
 
+### New: Orchestrator Command
+
+_FlashPipe_ now includes an **orchestrator** command that provides a high-level interface for managing complete deployment lifecycles:
+
+- **Integrated Workflow**: Update and deploy packages and artifacts in a single command
+- **Multi-Source Configs**: Load configurations from files, folders, or remote URLs
+- **Environment Prefixes**: Support multi-tenant/environment scenarios (DEV, QA, PROD)
+- **Selective Processing**: Filter by specific packages or artifacts
+- **Better Performance**: Uses internal functions instead of spawning external processes
+
+```bash
+# Deploy with environment prefix
+flashpipe orchestrator --update \
+  --deployment-prefix DEV \
+  --deploy-config ./001-deploy-config.yml \
+  --tmn-host tenant.hana.ondemand.com \
+  --oauth-host tenant.authentication.sap.hana.ondemand.com \
+  --oauth-clientid your-client-id \
+  --oauth-clientsecret your-secret
+```
+
+See [docs/orchestrator.md](docs/orchestrator.md) for complete documentation and examples.
+
 ### Documentation
 
 For details on using _FlashPipe_, visit the [GitHub Pages documentation site](https://engswee.github.io/flashpipe/).
+
+**Additional Documentation:**
+- [Orchestrator Command](docs/orchestrator.md) - High-level deployment orchestration
+- [Partner Directory](docs/partner-directory.md) - Manage Partner Directory parameters
+- [Config Generate](docs/config-generate.md) - Generate deployment configurations
+- [Orchestrator Migration Guide](ORCHESTRATOR_MIGRATION.md) - Migrate from standalone CLI
 
 ### Analytics
 
