@@ -16,38 +16,89 @@ Integration (CI) & Continuous Delivery/Deployment (CD) capabilities for SAP Inte
 _FlashPipe_ aims to simplify the Build-To-Deploy cycle for SAP Integration Suite by providing CI/CD capabilities for
 automating time-consuming manual tasks.
 
-### New: Orchestrator Command
+### Enhanced Capabilities
 
-_FlashPipe_ now includes an **orchestrator** command that provides a high-level interface for managing complete deployment lifecycles:
+_FlashPipe_ has been significantly enhanced with powerful new commands for streamlined CI/CD workflows:
 
-- **Integrated Workflow**: Update and deploy packages and artifacts in a single command
-- **Multi-Source Configs**: Load configurations from files, folders, or remote URLs
-- **Environment Prefixes**: Support multi-tenant/environment scenarios (DEV, QA, PROD)
+#### 🎯 Orchestrator Command
+
+High-level deployment orchestration with integrated workflow management:
+
+- **Complete Lifecycle**: Update and deploy packages and artifacts in a single command
+- **Multi-Source Configs**: Load from files, folders, or remote URLs
+- **YAML Configuration**: Define all settings in a config file for reproducibility
+- **Parallel Deployment**: Deploy multiple artifacts simultaneously (3-5x faster)
+- **Environment Support**: Multi-tenant/environment prefixes (DEV, QA, PROD)
 - **Selective Processing**: Filter by specific packages or artifacts
-- **Better Performance**: Uses internal functions instead of spawning external processes
 
 ```bash
-# Deploy with environment prefix
+# Simple deployment with YAML config
+flashpipe orchestrator --orchestrator-config ./orchestrator.yml
+
+# Or with individual flags
 flashpipe orchestrator --update \
   --deployment-prefix DEV \
   --deploy-config ./001-deploy-config.yml \
-  --tmn-host tenant.hana.ondemand.com \
-  --oauth-host tenant.authentication.sap.hana.ondemand.com \
-  --oauth-clientid your-client-id \
-  --oauth-clientsecret your-secret
+  --packages-dir ./packages
 ```
 
-See [docs/orchestrator.md](docs/orchestrator.md) for complete documentation and examples.
+#### ⚙️ Config Generation
+
+Automatically generate deployment configurations from your packages directory:
+
+```bash
+# Generate config from package structure
+flashpipe config-generate --packages-dir ./packages --output ./deploy-config.yml
+```
+
+#### 📁 Partner Directory Management
+
+Snapshot and deploy Partner Directory parameters:
+
+```bash
+# Download parameters from SAP CPI
+flashpipe pd-snapshot --output ./partner-directory
+
+# Upload parameters to SAP CPI
+flashpipe pd-deploy --source ./partner-directory
+```
+
+See documentation below for complete details on each command.
 
 ### Documentation
 
-For details on using _FlashPipe_, visit the [GitHub Pages documentation site](https://engswee.github.io/flashpipe/).
+For comprehensive documentation on using _FlashPipe_, visit the [GitHub Pages documentation site](https://engswee.github.io/flashpipe/).
 
-**Additional Documentation:**
-- [Orchestrator Command](docs/orchestrator.md) - High-level deployment orchestration
-- [Partner Directory](docs/partner-directory.md) - Manage Partner Directory parameters
-- [Config Generate](docs/config-generate.md) - Generate deployment configurations
-- [Orchestrator Migration Guide](ORCHESTRATOR_MIGRATION.md) - Migrate from standalone CLI
+#### New Commands Documentation
+
+- **[Orchestrator](docs/orchestrator.md)** - High-level deployment orchestration and workflow management
+- **[Orchestrator Quick Start](docs/orchestrator-quickstart.md)** - Get started with orchestrator in 30 seconds
+- **[Orchestrator YAML Config](docs/orchestrator-yaml-config.md)** - Complete YAML configuration reference
+- **[Config Generate](docs/config-generate.md)** - Automatically generate deployment configurations
+- **[Partner Directory](docs/partner-directory.md)** - Manage Partner Directory parameters
+
+#### Migration Guides
+
+- **[Orchestrator Migration Guide](docs/orchestrator-migration.md)** - Migrate from standalone CLI to integrated orchestrator
+
+#### Core FlashPipe Documentation
+
+- **[FlashPipe CLI Reference](docs/flashpipe-cli.md)** - Complete CLI command reference
+- **[OAuth Client Setup](docs/oauth_client.md)** - Configure OAuth authentication
+- **[GitHub Actions Integration](docs/documentation.md)** - CI/CD pipeline examples
+
+#### Examples
+
+Configuration examples are available in [docs/examples/](docs/examples/):
+- `orchestrator-config-example.yml` - Orchestrator configuration template
+- `flashpipe-cpars-example.yml` - Partner Directory configuration example
+
+#### Developer Documentation
+
+For contributors and maintainers, see [dev-docs/](dev-docs/) for:
+- Testing guides and coverage reports
+- CLI porting summaries
+- Enhancement documentation
 
 ### Analytics
 

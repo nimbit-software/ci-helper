@@ -2,13 +2,13 @@
 # This file demonstrates all available orchestrator settings that can be configured via YAML
 
 # Directory containing the packages to deploy
-packagesDir: ../../packages
+packagesDir: ../../integration-toolkit/packages
 
 # Path to deployment configuration (file, folder, or URL)
 # - Single file:  ./001-deploy-config.yml
 # - Folder:       ./configs (processes all *.yml files)
 # - Remote URL:   https://raw.githubusercontent.com/org/repo/main/config.yml
-deployConfig: ../../deployment
+deployConfig: ../../integration-toolkit/deployments
 
 # Optional: Deployment prefix for package/artifact IDs
 # This will be prepended to all package and artifact IDs
@@ -63,57 +63,8 @@ deployDelaySeconds: 15
 # Decrease if you hit API rate limits or memory constraints
 parallelDeployments: 10
 
-# ---
-# # Complete Example with All Settings
-# packagesDir: ./packages
-# deployConfig: ./configs
-# deploymentPrefix: DEV
-# packageFilter: "DeviceManagement,CustomerSync"
-# artifactFilter: ""
-# configPattern: "*.yml"
-# mergeConfigs: true
-# keepTemp: false
-# mode: "update-and-deploy"
-# deployRetries: 10
-# deployDelaySeconds: 20
-# parallelDeployments: 5
-
-# ---
-# # Example: Development Environment
-# packagesDir: ./packages
-# deployConfig: ./dev-config.yml
-# deploymentPrefix: DEV
-# mode: "update-and-deploy"
-# parallelDeployments: 5
-# deployRetries: 5
-# deployDelaySeconds: 15
-
-# ---
-# # Example: Production Environment (Conservative)
-# packagesDir: ./packages
-# deployConfig: ./prod-config.yml
-# deploymentPrefix: PROD
-# mode: "update-and-deploy"
-# parallelDeployments: 2  # Lower parallelism for production
-# deployRetries: 10       # More retries for stability
-# deployDelaySeconds: 30  # Longer delays between checks
-
-# ---
-# # Example: CI/CD Pipeline (Fast)
-# packagesDir: ./packages
-# deployConfig: https://raw.githubusercontent.com/org/repo/main/ci-config.yml
-# mode: "update-and-deploy"
-# parallelDeployments: 10  # High parallelism for speed
-# deployRetries: 5
-# deployDelaySeconds: 10
-# keepTemp: false
-
-# ---
-# # Example: Debugging/Development
-# packagesDir: ./packages
-# deployConfig: ./test-config.yml
-# deploymentPrefix: TEST
-# packageFilter: "SinglePackageToTest"
-# mode: "update-only"  # Don't deploy, just update
-# keepTemp: true       # Keep temp files for inspection
-# parallelDeployments: 1
+tmn-host: cpars-it-dev-34m09zg5.it-cpi033.cfapps.eu10-005.hana.ondemand.com
+oauth-host: cpars-it-dev-34m09zg5.authentication.eu10.hana.ondemand.com
+oauth-clientid: sb-364df3c5-96d2-46a5-aa3d-dc10008a61c4!b298933|it!b543091
+oauth-clientsecret: 51846b81-b497-419c-be80-982d5d9dc870$GdmjuZEBPtot-pNUJU2CAchydiVeqbVPgH4g9mKENRY=
+dir-work: $HOME/work
